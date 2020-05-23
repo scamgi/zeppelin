@@ -25,7 +25,7 @@ function serve(done) {
 
 function buildSass() {
   return gulp.src('app/scss/*.scss')
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass({outputStyle:'expanded'}).on('error', sass.logError))
     .pipe(gulp.dest('./app/css'));
 }
 
