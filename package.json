@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "A light css framework",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "normalize.css": "^8.0.1"
+  },
   "devDependencies": {
     "browser-sync": "^2.26.7",
     "del": "^5.1.0",
