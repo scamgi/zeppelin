@@ -337,6 +337,32 @@ template {
   display: none;
 }
 
+/*
+  _variables.scss
+*/
+.container {
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+
 html {
-  background-color: #666;
+  background-color: #C6DDF4;
 }

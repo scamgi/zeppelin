@@ -1,5 +1,10 @@
+// import css libraries 
 @import '../../node_modules/normalize.css/normalize';
 
+// import partials
+@import './variables';
+@import './container';
+
 html {
-  background-color: #666;
+  background-color: $color-5;
 }
