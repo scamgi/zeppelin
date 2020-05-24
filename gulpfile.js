@@ -8,6 +8,7 @@ var server = browserSync.create();
 var patterns = {
   base: './app',
   sass: './app/scss/*.scss',
+  html: './app/*.html',
   destSass: './app/css'
 };
 
@@ -43,9 +44,14 @@ function compressedSass() {
 }
 
 
-function watch() {
-  return gulp.watch('./app/scss/*.scss', gulp.series(expandedSass, reload));
+function watch(done) {
+  gulp.watch(patterns.sass, gulp.series(expandedSass, reload));
+  gulp.watch(patterns.html, reload);
+  done();
 }
 
 module.exports.default = gulp.series(clean, expandedSass, serve, watch);
-module.exports.sass = gulp.parallel(expandedSass, compressedSass);
+module.exports.sass = gulp.series(
+  clean,
+  gulp.parallel(expandedSass, compressedSass)
+  );
