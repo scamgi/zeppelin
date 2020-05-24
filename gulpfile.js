@@ -12,15 +12,32 @@ var patterns = {
   destSass: './app/css'
 };
 
+/*  BUILD  */
 function clean() {
   return del(['app/css/*']);
 };
+function expandedSass() {
+  return gulp.src(patterns.sass)
+    .pipe(sass({outputStyle:'expanded'}).on('error', sass.logError))
+    .pipe(gulp.dest(patterns.destSass));
+}
+function compressedSass() {
+  return gulp.src(patterns.sass)
+    .pipe(sass({outputStyle:'compressed'}).on('error', sass.logError))
+    .pipe(rename({extname:'.min.css'}))
+    .pipe(gulp.dest(patterns.destSass));
+}
+var buildSass = gulp.parallel(expandedSass, compressedSass);
+var build = gulp.series(
+  clean,
+  gulp.parallel(buildSass)
+);
 
+// DEV
 function reload(done) {
   server.reload();
   done();
 }
-
 function serve(done) {
   server.init({
     server: {
@@ -29,29 +46,14 @@ function serve(done) {
   });
   done();
 }
-
-function expandedSass() {
-  return gulp.src(patterns.sass)
-    .pipe(sass({outputStyle:'expanded'}).on('error', sass.logError))
-    .pipe(gulp.dest(patterns.destSass));
-}
-
-function compressedSass() {
-  return gulp.src(patterns.sass)
-    .pipe(sass({outputStyle:'compressed'}).on('error', sass.logError))
-    .pipe(rename({extname:'.min.css'}))
-    .pipe(gulp.dest(patterns.destSass));
-}
-
-
 function watch(done) {
-  gulp.watch(patterns.sass, gulp.series(expandedSass, reload));
+  gulp.watch(patterns.sass, gulp.series(buildSass, reload));
   gulp.watch(patterns.html, reload);
   done();
 }
+var dev = gulp.series(build, serve, watch);
 
-module.exports.default = gulp.series(clean, expandedSass, serve, watch);
-module.exports.sass = gulp.series(
-  clean,
-  gulp.parallel(expandedSass, compressedSass)
-  );
+
+module.exports.default = dev;
+module.exports.sass = buildSass;
+module.exports.build = build;
