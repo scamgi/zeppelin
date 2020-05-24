@@ -4,6 +4,7 @@
   "description": "A light css framework",
   "main": "index.js",
   "dependencies": {
+    "flexboxgrid": "^6.3.1",
     "normalize.css": "^8.0.1"
   },
   "devDependencies": {
