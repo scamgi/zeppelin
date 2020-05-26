@@ -1,11 +1,12 @@
 // import css libraries 
 @import '../../node_modules/normalize.css/normalize';
+@import './libraries/skeleton';
 @import '../../node_modules/flexboxgrid/css/flexboxgrid';
 
 // import partials
 @import './variables';
-@import './container';
+// @import './container';
 
-html {
-  background-color: $color-5;
-}
+// html {
+//   background-color: $color-5;
+// }
