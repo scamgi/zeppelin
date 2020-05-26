@@ -1,0 +1,85 @@
+/// breakpoints
+/// @group globals
+/// @type Map
+$breakpoints: (
+  sm: 544px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+
+/// returns true if it finds $item in $list, otherwise false
+/// @group globals
+/// @param {list} $list - list
+/// @param {any} $item - item
+/// @return {bool} returns true if it finds $item in $list, otherwise false
+@function any($list, $item) {
+  @return index($list, $item) != null;
+}
+
+
+/// media queries mixin
+/// @group globals
+/// @param {string} $b - breakpoint ('a', 'sm', 'md', 'lg', 'xl')
+/// @param {string} $type [min] - min or max
+@mixin media($b, $type: min) {
+  @if map-has-key($breakpoints, $b) {
+    $px: map-get($breakpoints, $b);
+
+    @if $type == max {
+      $px: $px - 1px;
+    }
+    @media (#{$type}-width: $px) {
+      @content;
+    }
+  }
+  @else if $b == a {
+    @content;
+  }
+  @else {
+    @error "Error: #{$w} not found in $widths.";
+  }
+}
+
+
+/// box-sizing
+/// @group globals
+/// @param {string} $el - element
+/// @param {string} $inherited - inherited
+@mixin box-sizing($el, $inherited) {
+  #{$el} {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  
+  #{$inherited}, #{$inherited}:before, #{$inherited}:after {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+  }
+
+}
+
+
+/// clearfix mixin
+/// @group globals
+@mixin clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+
+  * html & { zoom: 1; } // IE6
+  *:first-child + html & { zoom: 1; } // IE7
+}
+
+
+/// clearfix placeholder
+/// @group globals
+%clearfix { @include clearfix(); }
